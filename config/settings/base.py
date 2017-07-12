@@ -9,8 +9,8 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 """
 import environ
 
-ROOT_DIR = environ.Path(__file__) - 3  # (epuap-watchdog/config/settings/base.py - 3 = epuap-watchdog/)
-APPS_DIR = ROOT_DIR.path('epuap-watchdog')
+ROOT_DIR = environ.Path(__file__) - 3  # (epuap_watchdog/config/settings/base.py - 3 = epuap_watchdog/)
+APPS_DIR = ROOT_DIR.path('epuap_watchdog')
 
 # Load operating system environment variables and then prepare to use them
 env = environ.Env()
@@ -49,12 +49,15 @@ THIRD_PARTY_APPS = [
     'allauth',  # registration
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
+    'teryt_tree',
+    'reversion'
 ]
 
 # Apps specific for this project go here.
 LOCAL_APPS = [
     # custom users app
-    'epuap-watchdog.users.apps.UsersConfig',
+    'epuap_watchdog.users.apps.UsersConfig',
+    'epuap_watchdog.institutions',
     # Your stuff: custom apps go here
 ]
 
@@ -76,7 +79,7 @@ MIDDLEWARE = [
 # MIGRATIONS CONFIGURATION
 # ------------------------------------------------------------------------------
 MIGRATION_MODULES = {
-    'sites': 'epuap-watchdog.contrib.sites.migrations'
+    'sites': 'epuap_watchdog.contrib.sites.migrations'
 }
 
 # DEBUG
@@ -109,7 +112,7 @@ MANAGERS = ADMINS
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='postgres:///epuap-watchdog'),
+    'default': env.db('DATABASE_URL', default='postgres:///epuap_watchdog'),
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
@@ -253,8 +256,8 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
-ACCOUNT_ADAPTER = 'epuap-watchdog.users.adapters.AccountAdapter'
-SOCIALACCOUNT_ADAPTER = 'epuap-watchdog.users.adapters.SocialAccountAdapter'
+ACCOUNT_ADAPTER = 'epuap_watchdog.users.adapters.AccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'epuap_watchdog.users.adapters.SocialAccountAdapter'
 
 # Custom user app defaults
 # Select the correct user model
@@ -271,3 +274,5 @@ ADMIN_URL = r'^admin/'
 
 # Your common stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------
+GUSREGON_API_KEY = env('GUSREGON_API_KEY', default='abcde12345abcde12345')
+GUSREGON_SANDBOX = env.bool('GUSREGON_SANBOX', default=True)

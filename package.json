@@ -1,5 +1,5 @@
 {
-  "name": "epuap-watchdog",
+  "name": "epuap_watchdog",
   "version": "0.1.0",
   "dependencies": {},
   "devDependencies": {

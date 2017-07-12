@@ -77,17 +77,17 @@ qthelp:
 	@echo
 	@echo "Build finished; now you can run "qcollectiongenerator" with the" \
 	      ".qhcp project file in $(BUILDDIR)/qthelp, like this:"
-	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/epuap-watchdog.qhcp"
+	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/epuap_watchdog.qhcp"
 	@echo "To view the help file:"
-	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/epuap-watchdog.qhc"
+	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/epuap_watchdog.qhc"
 
 devhelp:
 	$(SPHINXBUILD) -b devhelp $(ALLSPHINXOPTS) $(BUILDDIR)/devhelp
 	@echo
 	@echo "Build finished."
 	@echo "To view the help file:"
-	@echo "# mkdir -p $$HOME/.local/share/devhelp/epuap-watchdog"
-	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/epuap-watchdog"
+	@echo "# mkdir -p $$HOME/.local/share/devhelp/epuap_watchdog"
+	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/epuap_watchdog"
 	@echo "# devhelp"
 
 epub:

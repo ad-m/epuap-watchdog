@@ -2,7 +2,7 @@ from django.apps import AppConfig
 
 
 class UsersConfig(AppConfig):
-    name = 'epuap-watchdog.users'
+    name = 'epuap_watchdog.users'
     verbose_name = "Users"
 
     def ready(self):
