@@ -275,4 +275,4 @@ ADMIN_URL = r'^admin/'
 # Your common stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------
 GUSREGON_API_KEY = env('GUSREGON_API_KEY', default='abcde12345abcde12345')
-GUSREGON_SANDBOX = env.bool('GUSREGON_SANBOX', default=True)
+GUSREGON_SANDBOX = env.bool('GUSREGON_SANDBOX', default=True)
