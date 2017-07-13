@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('teryt_tree', '0004_auto_20170712_1303'),
+        ('teryt_tree', '0003_auto_20161210_1515'),
     ]
 
     operations = [

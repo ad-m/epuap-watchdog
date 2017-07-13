@@ -1,5 +1,6 @@
 import reversion
 from django.contrib.contenttypes.fields import GenericRelation
+from django.contrib.postgres.fields import JSONField
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
@@ -25,7 +26,6 @@ class Institution(TimeStampedModel):
                                 help_text=_("Basic Institution ID in ePUAP"))
     regon = models.CharField(verbose_name=_("REGON  number"), max_length=20, db_index=True, null=True)
     address = models.CharField(max_length=100, verbose_name=_("Address"), null=True)
-    teryt = models.ForeignKey(JednostkaAdministracyjna, null=True, blank=True)
     postal_code = models.CharField(max_length=6, null=True)
     city = models.CharField(max_length=100, null=True)
     active = models.BooleanField(verbose_name=_("Active status"), help_text=_("Is the institution active?"), default=True)
@@ -63,6 +63,35 @@ class ESP(TimeStampedModel):
         ordering = ['created']
 
 
+@reversion.register()
 @python_2_unicode_compatible
 class REGON(TimeStampedModel):
-    institution = models.ForeignKey(Institution, verbose_name=_("Institution"))
+    institution = models.OneToOneField(Institution, verbose_name=_("Institution"), related_name="regon_data")
+    regon = models.CharField(verbose_name=_("REGON  number"), max_length=20, db_index=True, null=True)
+    data = JSONField(verbose_name=_("Response data"), help_text=_("Data for database search results REGON BIP1"), null=True, blank=True)
+
+    def __str__(self):
+        return "REGON {} at {}".format(self.regon, self.created.strftime("%Y-%m-%d %H-%M"))
+
+    class Meta:
+        verbose_name = _("REGON")
+        verbose_name_plural = _("REGONs")
+        ordering = ['created']
+
+
+@reversion.register()
+@python_2_unicode_compatible
+class REGONError(TimeStampedModel):
+    regon = models.OneToOneField(REGON, verbose_name=_("REGON"))
+    exception = models.CharField(max_length=200)
+
+
+@reversion.register()
+class JSTConnection(TimeStampedModel):
+    institution = models.OneToOneField(Institution, verbose_name=_("Institution"))
+    jst = models.ForeignKey(JednostkaAdministracyjna, verbose_name=_("Administration division unit"))
+
+    class Meta:
+        verbose_name = _("JSTConnection")
+        verbose_name_plural = _("JSTConnections")
+        ordering = ['created']

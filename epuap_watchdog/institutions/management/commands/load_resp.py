@@ -22,7 +22,8 @@ Example row:
 
 
 class Command(BaseCommand):
-    help = "My shiny new management command."
+    help = "Command to import RESP.xml files."
+
     FIELD_MAP = {'name': 'name',
                  'regon': 'regon',
                  'adres': 'address',
@@ -63,7 +64,7 @@ class Command(BaseCommand):
                 last_epuap_id = self._process_institution(item, last_epuap_id, source)
                 esp_id = item['uri'].split('/')[2]
                 self._append_to_dict_list(self.esp_cache, last_epuap_id, esp_id)
-            print("There is {} institutions changed, which {} updated and {} inserted.".format(
+            self.stdout.write("There is {} institutions changed, which {} updated and {} inserted.".format(
                 self.updated + self.inserted,
                 self.updated,
                 self.inserted))
@@ -121,6 +122,7 @@ class Command(BaseCommand):
                                                 name=name)
                                             for name in to_add)
                     self.inserted += len(to_add)
-            print("There is {} ESPs changed, which {} updated and {} inserted.".format(self.updated + self.inserted,
-                                                                                       self.updated,
-                                                                                       self.inserted))
+            self.stdout.write(("There is {} ESPs changed, which {} "
+                               "updated and {} inserted.").format(self.updated + self.inserted,
+                                                                  self.updated,
+                                                                  self.inserted))

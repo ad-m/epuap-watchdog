@@ -1,9 +1,8 @@
 from django.contrib import admin
-
 # Register your models here.
 from reversion.admin import VersionAdmin
 
-from epuap_watchdog.institutions.models import ESP, Institution
+from epuap_watchdog.institutions.models import ESP, Institution, REGONError, REGON
 
 
 class ESPInline(admin.TabularInline):
@@ -17,7 +16,7 @@ class InstitutionAdmin(VersionAdmin):
     '''
         Admin View for Institution
     '''
-    list_display = ('name', 'epuap_id', 'regon', 'address', 'teryt', 'postal_code', 'city','version_count');
+    list_display = ('name', 'epuap_id', 'regon', 'address', 'postal_code', 'city', 'version_count');
     inlines = [
         ESPInline,
     ]
@@ -32,3 +31,24 @@ class InstitutionAdmin(VersionAdmin):
 
 
 admin.site.register(Institution, InstitutionAdmin)
+
+
+class REGONErrorInline(admin.StackedInline):
+    '''
+        Stacked Inline View for REGONError
+    '''
+    model = REGONError
+
+
+class REGONAdmin(VersionAdmin):
+    '''
+        Admin View for REGON
+    '''
+    list_display = ('regon', 'institution')
+    inlines = [
+        REGONErrorInline,
+    ]
+    search_fields = ('regon', 'institution__name')
+
+
+admin.site.register(REGON, REGONAdmin)
