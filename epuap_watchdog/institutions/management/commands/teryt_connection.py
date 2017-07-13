@@ -21,13 +21,11 @@ class Command(BaseCommand):
         parser.add_argument('--update', dest='update', action='store_true')
         parser.add_argument('--no-progress', dest='no_progress', action='store_false')
 
-    def get_jst_id(self, data, regon):
+    def get_jst_id(self, data):
         for a, b, c in zip(self.JST_VOIVODESHIP_KEYS, self.JST_COUNTY_KEYS, self.JST_COMMUNITY_KEYS):
             if a in data and b in data and c in data:
                 value = data[a] + data[b] + data[c]
                 if value:
-                    print(a, b, c)
-                    print(data[a], data[b], data[c], data['regon14'], regon.id)
                     return value
 
     @lru_cache(maxsize=128)
@@ -54,7 +52,7 @@ class Command(BaseCommand):
             self.errored))
 
     def insert_throguth_terc(self, regon):
-        jst_id = self.get_jst_id(regon.data, regon)
+        jst_id = self.get_jst_id(regon.data)
         if not jst_id:
             return False
         jst = self.get_jst(jst_id)
