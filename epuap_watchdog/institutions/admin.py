@@ -16,7 +16,8 @@ class InstitutionAdmin(VersionAdmin):
     '''
         Admin View for Institution
     '''
-    list_display = ('name', 'epuap_id', 'regon', 'address', 'postal_code', 'city', 'version_count');
+    list_display = ('name', 'epuap_id', 'regon', 'address', 'postal_code', 'city', 'version_count',
+                    'created', 'modified')
     inlines = [
         ESPInline,
     ]
@@ -44,11 +45,16 @@ class REGONAdmin(VersionAdmin):
     '''
         Admin View for REGON
     '''
-    list_display = ('regon', 'institution')
+    list_display = ('regon', 'institution', 'version_count', 'created', 'modified')
     inlines = [
         REGONErrorInline,
     ]
     search_fields = ('regon', 'institution__name')
 
+    def version_count(self, obj):
+        return obj.versions.all().count()
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related('versions')
 
 admin.site.register(REGON, REGONAdmin)

@@ -69,6 +69,7 @@ class REGON(TimeStampedModel):
     institution = models.OneToOneField(Institution, verbose_name=_("Institution"), related_name="regon_data")
     regon = models.CharField(verbose_name=_("REGON  number"), max_length=20, db_index=True, null=True)
     data = JSONField(verbose_name=_("Response data"), help_text=_("Data for database search results REGON BIP1"), null=True, blank=True)
+    versions = GenericRelation(Version)
 
     def __str__(self):
         return "REGON {} at {}".format(self.regon, self.created.strftime("%Y-%m-%d %H-%M"))
@@ -82,14 +83,16 @@ class REGON(TimeStampedModel):
 @reversion.register()
 @python_2_unicode_compatible
 class REGONError(TimeStampedModel):
-    regon = models.OneToOneField(REGON, verbose_name=_("REGON"))
+    regon = models.ForeignKey(REGON, verbose_name=_("REGON"))
     exception = models.CharField(max_length=200)
+    versions = GenericRelation(Version)
 
 
 @reversion.register()
 class JSTConnection(TimeStampedModel):
     institution = models.OneToOneField(Institution, verbose_name=_("Institution"))
     jst = models.ForeignKey(JednostkaAdministracyjna, verbose_name=_("Administration division unit"))
+    versions = GenericRelation(Version)
 
     class Meta:
         verbose_name = _("JSTConnection")
