@@ -31,9 +31,9 @@ class Command(BaseCommand):
                  'miejscowosc': 'city'}
 
     def add_arguments(self, parser):
-        parser.add_argument('--infile', nargs='?', type=argparse.FileType('r'),
+        parser.add_argument('--infile', required=True, nargs='?', type=argparse.FileType('r'),
                             help="Path to RESP.xml file to import")
-        parser.add_argument('--source', help="Description of changes eg. data source description")
+        parser.add_argument('--comment', help="Description of changes eg. data source description")
 
     def _append_to_dict_list(self, dict_values, key, value):
         values = dict_values.get(key, [])

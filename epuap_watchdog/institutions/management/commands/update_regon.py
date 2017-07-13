@@ -15,7 +15,7 @@ class Command(BaseCommand):
     help = "Command to import REGON database."
 
     def add_arguments(self, parser):
-        parser.add_argument('--comment', help="Description of changes eg. data source description")
+        parser.add_argument('--comment', required=True, help="Description of changes eg. data source description")
         parser.add_argument('--update', dest='update', action='store_true')
         parser.add_argument('--no-progress', dest='no_progress', action='store_false')
 
@@ -47,15 +47,15 @@ class Command(BaseCommand):
                 reversion.set_comment(comment)
         total = updated + inserted + errored
         self.stdout.write(("There is {} REGON changed, which "
-                            "{} updated, "
-                            "{} inserted and "
-                            "{} errored.").format(total, updated, inserted, errored))
+                           "{} updated, "
+                           "{} inserted and "
+                           "{} errored.").format(total, updated, inserted, errored))
 
     def get_queryset(self, update):
         qs = Institution.objects.select_related('regon_data').exclude(regon=None)
-        if not qs.update():
+        if not update:
             qs = qs.filter(regon_data=None)
-        return qs.all()
+        return qs.order_by('-modified').all()
 
     def get_iter(self, queryset, no_progress):
         return tqdm(queryset, smoothing=0) if no_progress else queryset

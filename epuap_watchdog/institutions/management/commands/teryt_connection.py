@@ -17,7 +17,7 @@ class Command(BaseCommand):
     JST_COMMUNITY_KEYS = ["adsiedzgmina_symbol", 'adkorgmina_symbol', ]
 
     def add_arguments(self, parser):
-        parser.add_argument('--comment', help="Description of changes eg. data source description")
+        parser.add_argument('--comment', required=True, help="Description of changes eg. data source description")
         parser.add_argument('--update', dest='update', action='store_true')
         parser.add_argument('--no-progress', dest='no_progress', action='store_false')
 
@@ -64,7 +64,8 @@ class Command(BaseCommand):
         qs = REGON.objects.exclude(data=None)
         if not update:
             qs = qs.filter(institution__jstconnection=None)
-        return qs.select_related('institution__jstconnection').all()
+        qs = qs.select_related('institution__jstconnection')
+        return qs.order_by('-modified').all()
 
     def get_iter(self, queryset, no_progress):
         return tqdm(queryset) if no_progress else queryset
