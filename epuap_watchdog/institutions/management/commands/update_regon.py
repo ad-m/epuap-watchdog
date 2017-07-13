@@ -17,12 +17,13 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--comment', required=True, help="Description of changes eg. data source description")
         parser.add_argument('--update', dest='update', action='store_true')
+        parser.add_argument('--institutions_id', type=int, nargs='+', help="Institution IDs updated")
         parser.add_argument('--no-progress', dest='no_progress', action='store_false')
 
-    def handle(self, comment, update, no_progress, *args, **options):
+    def handle(self, comment, institutions_id, update, no_progress, *args, **options):
         gus = GUS(api_key=settings.GUSREGON_API_KEY, sandbox=settings.GUSREGON_SANDBOX)
-        inserted, updated, errored = 0, 0, 0
-        qs = self.get_queryset(update)
+        inserted, updated, errored, skipped = 0, 0, 0, 0
+        qs = self.get_queryset(update, institutions_id)
         for institution in self.get_iter(qs, no_progress):
             with transaction.atomic() and reversion.create_revision():
                 try:
@@ -34,27 +35,32 @@ class Command(BaseCommand):
                     self.stderr.write("Errored for {} in {} as {}".format(institution.regon, institution.pk, repr(e)))
                     continue
                 if hasattr(institution, 'regon_data'):
-                    if institution.regon_data.regon != institution.regon and institution.regon_data.data != data:
+                    if institution.regon_data.data != data:
                         institution.regon_data.regon = institution.regon
                         institution.regon_data.data = data
                         institution.regon_data.save()
-                    updated += 1
+                        updated += 1
+                    else:
+                        skipped += 1
                 else:
                     REGON.objects.create(institution=institution,
                                          regon=institution.regon,
                                          data=data)
                     inserted += 1
                 reversion.set_comment(comment)
-        total = updated + inserted + errored
+        total = updated + inserted + errored + skipped
         self.stdout.write(("There is {} REGON changed, which "
                            "{} updated, "
+                           "{} skipped, "
                            "{} inserted and "
-                           "{} errored.").format(total, updated, inserted, errored))
+                           "{} errored.").format(total, updated, skipped, inserted, errored))
 
-    def get_queryset(self, update):
+    def get_queryset(self, update, institutions_id):
         qs = Institution.objects.select_related('regon_data').exclude(regon=None)
         if not update:
             qs = qs.filter(regon_data=None)
+        if institutions_id:
+            qs = qs.filter(id__in=institutions_id)
         return qs.order_by('-modified').all()
 
     def get_iter(self, queryset, no_progress):
