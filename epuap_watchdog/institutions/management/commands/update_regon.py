@@ -22,6 +22,9 @@ class Command(BaseCommand):
 
     def handle(self, comment, institutions_id, update, no_progress, *args, **options):
         gus = GUS(api_key=settings.GUSREGON_API_KEY, sandbox=settings.GUSREGON_SANDBOX)
+        if settings.GUSREGON_SANDBOX is False:
+            self.stderr.write("You are using sandbox mode for the REGON database. Data may be incorrect. "
+                              "Set the environemnt variable GUSREGON_SANDBOX and GUSREGON_API_KEY correctly.")
         inserted, updated, errored, skipped = 0, 0, 0, 0
         qs = self.get_queryset(update, institutions_id)
         for institution in self.get_iter(qs, no_progress):
