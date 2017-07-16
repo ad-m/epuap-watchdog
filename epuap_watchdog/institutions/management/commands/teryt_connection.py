@@ -1,5 +1,4 @@
 from functools import lru_cache
-from pprint import pprint
 
 import reversion
 from django.core.management.base import BaseCommand
@@ -36,7 +35,7 @@ class Command(BaseCommand):
             return None
 
     def handle(self, comment, no_progress, update, *args, **options):
-        self.updated, self.inserted, self.errored = 0, 0, 0
+        self.updated, self.inserted, self.errored, self.skipped = 0, 0, 0, 0
         with transaction.atomic() and reversion.create_revision():
             for regon in self.get_iter(self.get_queryset(update), no_progress):
                 item = self.insert_throguth_terc(regon)
@@ -45,11 +44,13 @@ class Command(BaseCommand):
                 if not item:
                     self.errored += 1
 
-        self.stdout.write("There is {} connection changed, which {} updated and {} inserted. but {} errored.".format(
-            self.updated + self.inserted,
-            self.updated,
-            self.inserted,
-            self.errored))
+        self.stdout.write(
+            "There is {} connection changed, which {} updated, {} skipped and {} inserted. but {} errored.".
+            format(self.updated + self.inserted,
+                   self.updated,
+                   self.skipped,
+                   self.inserted,
+                   self.errored))
 
     def insert_throguth_terc(self, regon):
         jst_id = self.get_jst_id(regon.data)
@@ -83,9 +84,12 @@ class Command(BaseCommand):
     def save_or_update(self, institution, terc):
         try:
             jc = JSTConnection.objects.get(institution=institution)
-            jc.jst = terc
-            jc.save()
-            self.updated += 1
+            if jc.jst != terc:
+                jc.jst = terc
+                jc.save()
+                self.updated += 1
+            else:
+                self.skipped += 1
             return jc
         except JSTConnection.DoesNotExist:
             jc = JSTConnection.objects.create(institution=institution, jst=terc)
