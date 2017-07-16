@@ -20,6 +20,9 @@ Example row:
     </esp>
 """
 
+#  Input file can be downloaded at https://epuap.gov.pl/ -> Strefa urzędnika -> Dla integratorów ->
+#  Książka adresowa ESP -> XML ( https://s.jawne.info.pl/ksiazka-esp )
+
 
 class Command(BaseCommand):
     help = "Command to import RESP.xml files."
@@ -31,21 +34,25 @@ class Command(BaseCommand):
                  'miejscowosc': 'city'}
 
     def add_arguments(self, parser):
-        parser.add_argument('--infile', required=True, nargs='?', type=argparse.FileType('r'),
+        parser.add_argument('--infile', required=True, type=argparse.FileType('r'),
                             help="Path to RESP.xml file to import")
-        parser.add_argument('--comment', help="Description of changes eg. data source description")
+        parser.add_argument('--comment', required=True, help="Description of changes eg. data source description")
+        parser.add_argument('--no-progress', dest='no_progress', action='store_false')
 
     def _append_to_dict_list(self, dict_values, key, value):
         values = dict_values.get(key, [])
         values.append(value)
         dict_values[key] = values
 
-    def handle(self, infile, source, *args, **options):
+    def handle(self, infile, comment, no_progress, *args, **options):
         self.esp_cache = {}
         self.updated, self.inserted = 0, 0
-
-        self.process_all_institutions(infile, source)
+        self.no_progress = no_progress
+        self.process_all_institutions(infile, comment)
         self.process_all_esps()
+
+    def get_iter(self, items, **kwargs):
+        return tqdm(items, **kwargs) if self.no_progress else items
 
     def generate_data(self, input):
         tree = etree.parse(input, etree.XMLParser(remove_blank_text=True))
@@ -54,14 +61,14 @@ class Command(BaseCommand):
         for i, esp in enumerate(items):
             yield {el.tag: el.text.strip() for el in esp.getchildren()}
 
-    def process_all_institutions(self, infile, source):
+    def process_all_institutions(self, infile, comment):
         last_epuap_id = None
 
         with transaction.atomic():
             # Transaction usage means that the disk has been written to the disk only after commit,
             # which greatly influences the speed.
-            for item in tqdm(self.generate_data(infile), desc="Institution update"):
-                last_epuap_id = self._process_institution(item, last_epuap_id, source)
+            for item in self.get_iter(self.generate_data(infile), desc="Institution update [1/2]"):
+                last_epuap_id = self._process_institution(item, last_epuap_id, comment)
                 esp_id = item['uri'].split('/')[2]
                 self._append_to_dict_list(self.esp_cache, last_epuap_id, esp_id)
             self.stdout.write("There is {} institutions changed, which {} updated and {} inserted.".format(
@@ -69,7 +76,7 @@ class Command(BaseCommand):
                 self.updated,
                 self.inserted))
 
-    def _process_institution(self, item, last_epuap_id, source):
+    def _process_institution(self, item, last_epuap_id, comment):
         with reversion.create_revision():
             epuap_id = item['uri'].split('/')[1]
             if epuap_id != last_epuap_id:  # Update institution data
@@ -79,7 +86,7 @@ class Command(BaseCommand):
                 except Institution.DoesNotExist:
                     institution = self.save_new_institution(epuap_id, item)
                     self.inserted += 1
-            reversion.set_comment(source)
+            reversion.set_comment(comment)
             return epuap_id
 
     def update_institution(self, epuap_id, item):
@@ -104,7 +111,7 @@ class Command(BaseCommand):
     def process_all_esps(self):
         with transaction.atomic():
             self.updated, self.inserted = 0, 0
-            for epuap_id, esp_names in tqdm(self.esp_cache.items(), desc="ESP update"):
+            for epuap_id, esp_names in self.get_iter(self.esp_cache.items(), desc="ESP update [2/2]"):
                 esp_names = set(esp_names)
                 esps = ESP.objects.filter(institution__epuap_id=epuap_id).all()
 
