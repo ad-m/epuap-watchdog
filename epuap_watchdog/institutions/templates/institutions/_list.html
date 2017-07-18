@@ -1,0 +1,14 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>Nazwa podmiotu</th>
+        <th>Identyfikator ePUAP</th>
+    </tr>
+    </thead>
+    <tbody>{% for object in object_list %}
+        <tr>
+            <td><a href="{% url "details" epuap_id=object.epuap_id %}">{{ object }}</a>
+            <td><code>{{ object.epuap_id }}</code></td>
+        </tr>
+    {% endfor %}</tbody>
+</table>

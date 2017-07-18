@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+    {%  if object.jstconnection.jst %}
+    <ol class="breadcrumb">
+        {% for jst in object.jstconnection.jst.get_ancestors.all %}
+            <li><a href="{% url 'terc' pk=jst.id %}">{{ jst }}</a></li>
+        {% endfor %}
+        <li><a href="{% url 'terc' pk=object.jstconnection.jst.id %}">{{ object.jstconnection.jst }}</a></li>
+        <li class="active">{{ object }}</li>
+    </ol>
+    {%  endif %}
+    <h2>{{ object }}</h2>
+    <a class="btn btn-default" role="button" data-toggle="collapse" href="#collapseExample"
+       aria-expanded="false"
+       aria-controls="collapseExample">
+        Pokaż zgromadzone dane
+    </a>
+    <div class="collapse" id="collapseExample">
+        ID: <code>{{ object.id }}</code>
+        {%  include 'institutions/_dict_table.html' with name='Baza REGON' dict=object.regon_data.data %}
+        {%  include 'institutions/_dict_table.html' with name='Baza RESP.xml' dict=object.resp.data %}
+    </div>
+    </pre>
+{% endblock %}

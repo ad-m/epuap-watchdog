@@ -50,7 +50,8 @@ THIRD_PARTY_APPS = [
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
     'teryt_tree',
-    'reversion'
+    'reversion',
+    'bootstrap_pagination',
 ]
 
 # Apps specific for this project go here.

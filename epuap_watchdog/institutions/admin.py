@@ -16,12 +16,12 @@ class InstitutionAdmin(VersionAdmin):
     '''
         Admin View for Institution
     '''
-    list_display = ('name', 'epuap_id', 'regon', 'address', 'postal_code', 'city', 'version_count',
+    list_display = ('epuap_id', 'name',  'regon', 'version_count',
                     'created', 'modified')
     inlines = [
         ESPInline,
     ]
-    readonly_fields = ('epuap_id', 'slug')
+    readonly_fields = ('epuap_id', )
     search_fields = ('name', 'regon')
 
     def version_count(self, obj):

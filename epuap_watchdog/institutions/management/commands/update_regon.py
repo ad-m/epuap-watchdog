@@ -1,5 +1,8 @@
+import os
+
 import requests_cache
 import reversion
+import time
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db import transaction
@@ -22,7 +25,7 @@ class Command(BaseCommand):
 
     def handle(self, comment, institutions_id, update, no_progress, *args, **options):
         gus = GUS(api_key=settings.GUSREGON_API_KEY, sandbox=settings.GUSREGON_SANDBOX)
-        if settings.GUSREGON_SANDBOX is False:
+        if settings.GUSREGON_SANDBOX is True:
             self.stderr.write("You are using sandbox mode for the REGON database. Data may be incorrect. "
                               "Set the environemnt variable GUSREGON_SANDBOX and GUSREGON_API_KEY correctly.")
         inserted, updated, errored, skipped = 0, 0, 0, 0
@@ -51,6 +54,7 @@ class Command(BaseCommand):
                                          data=data)
                     inserted += 1
                 reversion.set_comment(comment)
+            time.sleep(2)
         total = updated + inserted + errored + skipped
         self.stdout.write(("There is {} REGON changed, which "
                            "{} updated, "

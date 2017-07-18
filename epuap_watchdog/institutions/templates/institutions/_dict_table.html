@@ -1,0 +1,13 @@
+{%  load i18n %}<h3>{{ name }}</h3>
+<table class="table">
+    <tr>
+        <th>{% trans 'Key' %}</th>
+        <th>{%  trans 'Value' %}</th>
+    </tr>
+    {% for key, value in dict.items %}
+        <tr>
+            <td>{{ key }}</td>
+            <td>{{ value }}</td>
+        </tr>
+    {% endfor %}
+</table>

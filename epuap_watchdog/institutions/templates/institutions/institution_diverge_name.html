@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load i18n institutions_tags bootstrap_pagination %}
+{% block content %}
+    <table class="table table-striped">
+        <tr>
+            <th>Podmiot</th>
+            <th>Nazwa REGON</th>
+            <th>Nazwa ePUAP</th>
+        </tr>
+    {% for object in object_list %}
+        <tr>
+        <td><a href="{% url 'details' epuap_id=object.epuap_id %}">{{ object }}</a></td>
+        <td>
+            {{ object.regon_data.data.nazwa }}
+        </td>
+        <td>
+            <p>{% diff_text object.regon_data.data.nazwa object.resp.data.name %}</p>
+        </td>
+        </tr>
+    {%  endfor %}
+    {% bootstrap_paginate page_obj %}
+    </table>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+    <ol class="breadcrumb">
+        {% for jst in object.get_ancestors.all %}
+            <li><a href="{% url 'terc' pk=jst.id %}">{{ jst }}</a></li>
+        {% endfor %}
+        <li class="active">{{ object }}</li>
+    </ol>
+    <p>
+        {% if object.children.all %}
+            Przejdź do: {% for object in object.children.all %}
+            <a href="{% url 'terc' pk=object.id %}">{{ object }}</a>
+            {% if not forloop.last %}
+                &bull;
+            {% endif %}
+        {% endfor %}
+        {% endif %}
+    </p>
+
+    <h1>{{ oject }}</h1>
+    {%  include 'institutions/_list.html' with object_list=object_list %}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+    <div class="row">
+        <form>
+            <div class="col-lg-offset-3 col-lg-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="q" placeholder="{% trans 'Search for...' %}"
+                           value="{{ search_query }}">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">{% trans 'Search!' %}</button>
+                    </span>
+                </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+        </form>
+    </div>
+    <div class="row">
+        {% for object in object_list %}
+            <h2><a href="{% url 'details' epuap_id=object.epuap_id %}">{{ object }}</a></h2>
+        {% endfor %}
+    </div>
+{% endblock %}
