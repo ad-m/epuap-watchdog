@@ -1,9 +1,10 @@
+{% load i18n  %}
 <table class="table">
     <thead>
     <tr>
-        <th>Nazwa podmiotu</th>
-        <th>Miejscowość</th>
-        <th>Identyfikator ePUAP</th>
+        <th>{%  trans 'Office name' %}</th>
+        <th>{%  trans 'Place' %}</th>
+        <th>{%  trans 'ePUAP ID' %}</th>
     </tr>
     </thead>
     <tbody>{% for object in object_list %}

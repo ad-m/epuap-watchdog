@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n bootstrap_pagination %}
 {% block content %}
     <ol class="breadcrumb">
         {% for jst in object.get_ancestors.all %}
@@ -18,6 +18,8 @@
         {% endif %}
     </p>
 
-    <h1>{{ oject }}</h1>
+    <h1>{{ object }}</h1>
+    {% bootstrap_paginate page_obj %}
     {%  include 'institutions/_list.html' with object_list=object_list %}
+    {% bootstrap_paginate page_obj %}
 {% endblock %}

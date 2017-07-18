@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load i18n institutions_tags bootstrap_pagination %}
+{% block content %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Podmiot</th>
+            <th>Nazwa ePUAP</th>
+            <th>Region</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
+            <tr>
+                <td><a href="{% url 'details' epuap_id=object.epuap_id %}">{{ object }}</a></td>
+                <td>
+                    <p>{{ object.resp.data.name }}</p>
+                </td>
+                <td>
+                    {% if object.jst %}
+                        <p><a href="{% url 'terc' pk=object.jst.id %}">{{ object.jst }}</a></p>
+                    {% else %}
+                        {% trans 'Unknown' %}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% bootstrap_paginate page_obj %}
+{% endblock %}

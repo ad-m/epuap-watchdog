@@ -35,7 +35,7 @@ class Institution(TimeStampedModel):
     objects = InstitutionQuerySet.as_manager()
 
     def jst(self):
-        return self.jstconnection.jst
+        return self.jstconnection.jst if hasattr(self, 'jstconnection') else None
 
     def is_located_in_name(self):
         return any(v in self.name.lower() for v in [' w ', ' we'])

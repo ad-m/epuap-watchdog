@@ -1,7 +1,0 @@
-{% extends 'base.html' %}
-{% load i18n institutions_tags bootstrap_pagination %}
-{% block content %}
-    <p>There is no information from the REGON database for {{ no_regon }} institutions.</p>
-    <p>There is no link to the TERYT database for {{ no_jst }} institutions.</p>
-    <p>Contact details are available for up to {{ institution_count }} institutions. We register {{ esp_count }} electronic delivery boxes. On average {{ average_esp }} electronic delivery boxes for the institution.</p>
-{% endblock %}

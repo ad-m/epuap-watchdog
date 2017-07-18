@@ -46,9 +46,9 @@ DJANGO_APPS = [
 ]
 THIRD_PARTY_APPS = [
     'crispy_forms',  # Form layouts
-    'allauth',  # registration
-    'allauth.account',  # registration
-    'allauth.socialaccount',  # registration
+    # 'allauth',  # registration
+    # 'allauth.account',  # registration
+    # 'allauth.socialaccount',  # registration
     'teryt_tree',
     'reversion',
     'bootstrap_pagination',
@@ -59,6 +59,8 @@ LOCAL_APPS = [
     # custom users app
     'epuap_watchdog.users.apps.UsersConfig',
     'epuap_watchdog.institutions',
+    'epuap_watchdog.institutions.analysis',
+    'epuap_watchdog.main',
     # Your stuff: custom apps go here
 ]
 
@@ -127,8 +129,12 @@ DATABASES['default']['ATOMIC_REQUESTS'] = True
 TIME_ZONE = 'UTC'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#language-code
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pl-PL'
 
+LANGUAGES = (
+    ('pl', 'Espanol'),
+    ('en', 'English'),
+)
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#site-id
 SITE_ID = 1
 
@@ -257,14 +263,14 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
-ACCOUNT_ADAPTER = 'epuap_watchdog.users.adapters.AccountAdapter'
-SOCIALACCOUNT_ADAPTER = 'epuap_watchdog.users.adapters.SocialAccountAdapter'
+# ACCOUNT_ADAPTER = 'epuap_watchdog.users.adapters.AccountAdapter'
+# SOCIALACCOUNT_ADAPTER = 'epuap_watchdog.users.adapters.SocialAccountAdapter'
 
 # Custom user app defaults
 # Select the correct user model
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = 'users:redirect'
-LOGIN_URL = 'account_login'
+# LOGIN_URL = 'account_login'
 
 # SLUGLIFIER
 AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'

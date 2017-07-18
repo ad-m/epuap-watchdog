@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-18 14:32+0000\n"
-"PO-Revision-Date: 2017-07-18 16:30+0200\n"
+"POT-Creation-Date: 2017-07-18 19:33+0000\n"
+"PO-Revision-Date: 2017-07-18 21:44+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Name"
 msgstr "Nazwa"
 
-#: models.py:28
+#: models.py:28 templates/institutions/_list.html:6
 msgid "ePUAP ID"
 msgstr "Identyfikator ePUAP"
 
@@ -115,17 +115,72 @@ msgstr "Klucz"
 msgid "Value"
 msgstr "Wartość"
 
-#: templates/institutions/institution_detail.html:15
-msgid "Near institution"
-msgstr "Pobliskie instytucje"
+#: templates/institutions/_list.html:4
+msgid "Office name"
+msgstr "Urząd"
+
+#: templates/institutions/_list.html:5
+msgid "Place"
+msgstr "Miejscowość"
 
 #: templates/institutions/institution_detail.html:27
+#, python-format
+msgid ""
+"\n"
+"    <p>The way of addressing ePUAP messages is broken. Requires knowledge of "
+"the identifier of the institution. Automatic hints from the system may be "
+"incomplete, preventing you from contacting the authority you want.</p>\n"
+"\n"
+"    <p>If you want to contact the office, go to the \"<a href=\"https://"
+"epuap.gov.pl/wps/myportal/strefa-klienta/katalog-spraw/inne-sprawy-urzedowe/"
+"najczesciej-zalatwiane-sprawy/pismo-ogolne-do-podmiotu-publicznego\">General "
+"letter</a>\" form. In the \"Set / change address\" field, type <code>"
+"%(epuap_id)s</code> to write to the %(object)s. If you want to contact "
+"another office - find it on this page.</p>\n"
+"\n"
+"    <p>It is not worth looking for other ePUAP forms. They may initially "
+"make a good impression, but then it turns out that, for example, they are "
+"not available at the office, although such service should be available. "
+"These are in about 90%% trap.</p>\n"
+"\n"
+"    <p>The detailed instructions for using the general letter are as follows:"
+"</p>\n"
+"    "
+msgstr ""
+"\n"
+"    <p>Sposób adresowania pism w systemie ePUAP jest zepsuty. Wymaga "
+"znajomości identyfikatora instytucji. Automatyczne podpowiedzi z systemu "
+"mogą być niepełne uniemożliwiając kontakt z pożądanym przez Ciebie urzędem.</"
+"p>\n"
+"\n"
+"    <p>Jeżeli chcesz się skontaktować z urzędem przejdź do formularza \"<a "
+"href=\"https://epuap.gov.pl/wps/myportal/strefa-klienta/katalog-spraw/inne-"
+"sprawy-urzedowe/najczesciej-zalatwiane-sprawy/pismo-ogolne-do-podmiotu-"
+"publicznego\">Pismo ogólne do podmiotu publicznego</a>\".  W polu \"Ustaw/"
+"zmień adresata\" wpisz <code>%(epuap_id)s</code>, aby napisać do "
+"%(object)s . Jeżeli chcesz skontaktować się z innym urzędem - odszukaj go na "
+"tej stronie.</p>\n"
+"\n"
+"    <p>Nie warto poszukiwać innych formularzy w systemie ePUAP. Mogą one "
+"początkowo sprawiać dobre wrażenie, ale następnie okaże się, że np. nie są "
+"dostępne w danym urzędzie, choć taka obsługa powinna być dostępna.  To są w "
+"90%% zwyczajne pułapki.</p>\n"
+"\n"
+"    <p>Szczegółowa instrukcja korzystania z pisma ogólnego została "
+"przedstawiona poniżej:</p>\n"
+"    "
+
+#: templates/institutions/institution_detail.html:41
+msgid "See also near institution"
+msgstr "Zobacz także pobliskie instytucje"
+
+#: templates/institutions/institution_detail.html:47
+msgid "Show collected data"
+msgstr "Pokaż zebrane dane"
+
+#: templates/institutions/institution_detail.html:53
 msgid "Electronic delivery boxes"
 msgstr "Elektroniczne skrzynki podawcze"
-
-#: templates/institutions/institution_no_location_name.html:20
-msgid "Unknown"
-msgstr "Nieznane"
 
 #: templates/institutions/institution_search.html:8
 msgid "Search for..."
@@ -150,3 +205,6 @@ msgstr "^region-(?P<pk>[\\d]+)/$"
 #: urls.py:22
 msgid "^stats/"
 msgstr "^statystyki/"
+
+#~ msgid "Unknown"
+#~ msgstr "Nieznane"

@@ -1,8 +1,11 @@
 from itertools import islice
 
 from braces.views import SelectRelatedMixin
+from cached_property import cached_property
+from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 from teryt_tree.models import JednostkaAdministracyjna
+
 from epuap_watchdog.institutions.models import Institution
 
 
@@ -14,17 +17,22 @@ class HomeView(ListView):
         return super(HomeView, self).get_queryset().voivodeship()
 
 
-class TERCView(DetailView):
-    model = JednostkaAdministracyjna
+class TERCView(SelectRelatedMixin, ListView):
+    model = Institution
+    select_related = ['jstconnection__jst', ]
     template_name = 'institutions/institution_terc.html'
+    paginate_by = 50
 
     def get_queryset(self):
-        return super(TERCView, self).get_queryset()
+        return super(TERCView, self).get_queryset().area(jst=self.object)
+
+    @cached_property
+    def object(self):
+        return get_object_or_404(JednostkaAdministracyjna, id=self.kwargs['pk'])
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['object_list'] = Institution.objects.area(jst=self.object).select_related('jstconnection__jst').all()
-        return context
+        kwargs['object'] = self.object
+        return super().get_context_data(**kwargs)
 
 
 class InstitutionSearchView(SelectRelatedMixin, ListView):
@@ -56,6 +64,8 @@ class InstitutionDetailView(SelectRelatedMixin, DetailView):
         return Institution.objects.exclude(pk__in=ids).area(jst).with_jst().order_by('jstconnection__jst_id').all()
 
     def get_near_institution(self, jst):
+        if not jst:
+            return
         ids = [self.object.pk]
         for institution in self.get_near_queryset(ids, jst)[:10]:
             ids.append(institution.id)
