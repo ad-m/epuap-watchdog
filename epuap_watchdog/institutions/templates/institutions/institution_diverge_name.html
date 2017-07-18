@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n institutions_tags bootstrap_pagination %}
 {% block content %}
+    {% bootstrap_paginate page_obj %}
     <table class="table table-striped">
         <tr>
             <th>Podmiot</th>
@@ -18,6 +19,6 @@
         </td>
         </tr>
     {%  endfor %}
-    {% bootstrap_paginate page_obj %}
     </table>
+    {% bootstrap_paginate page_obj %}
 {% endblock %}

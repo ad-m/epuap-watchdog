@@ -44,13 +44,14 @@ class Institution(TimeStampedModel):
         return ({'name': "/%s/%s " % (self.epuap_id, esp.name), 'active': esp.active}
                 for esp in self.esp_set.all())
 
-    def __str__(self):
-        return self.name
 
     class Meta:
         verbose_name = _("Institution")
         verbose_name_plural = _("Institutions")
         ordering = ['created', ]
+
+    def __str__(self):
+        return self.name
 
     def get_absolute_url(self):
         return reverse('institutions:details', kwargs={'slug': self.slug})

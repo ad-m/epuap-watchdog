@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load i18n institutions_tags bootstrap_pagination %}
+{% block content %}
+    <div class="btn-group" role="group">
+    {%  for name, label in criteria_list.items %}
+  <a href="?criteria={{ name }}" class="btn btn-default{%  if name == criteria_selected %} disabled{% endif %}">{{ label }}</a>
+    {%  endfor %}
+</div>
+    <table class="table table-striped">
+        <tr>
+            <th>Nazwa podmiotu</th>
+            <th>Liczba powtórzeń</th>
+        </tr>
+        {% for name, count in object_list %}
+            <tr>
+                <td><a href="{% url 'search' %}?q={{ name }}">{{ name }}</a></td>
+                <td>{{ count }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% bootstrap_paginate page_obj %}
+{% endblock %}

@@ -30,9 +30,14 @@ urlpatterns = [
         name='no-location-name'
     ),
     url(
-        regex=_(r'^stats'),
+        regex=_(r'^stats$'),
         view=views.NumeralStatView.as_view(),
         name='numeral-stat'
+    ),
+    url(
+        regex=_(r'^name-counts'),
+        view=views.MostCommonNamesView.as_view(),
+        name='name-counts'
     ),
 
     url(

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n bootstrap_pagination %}
 {% block content %}
     <div class="row">
         <form>
@@ -14,9 +14,8 @@
             </div><!-- /.col-lg-6 -->
         </form>
     </div>
-    <div class="row">
-        {% for object in object_list %}
-            <h2><a href="{% url 'details' epuap_id=object.epuap_id %}">{{ object }}</a></h2>
-        {% endfor %}
+    {% bootstrap_paginate page_obj %}
+    {% include 'institutions/_list.html' with object_list=object_list %}
+    {% bootstrap_paginate page_obj %}
     </div>
 {% endblock %}
