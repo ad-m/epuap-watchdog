@@ -1,0 +1,152 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-18 14:32+0000\n"
+"PO-Revision-Date: 2017-07-18 16:30+0200\n"
+"Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
+"Language-Team: \n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: models.py:27 models.py:66 models.py:86 models.py:105
+msgid "Name"
+msgstr "Nazwa"
+
+#: models.py:28
+msgid "ePUAP ID"
+msgstr "Identyfikator ePUAP"
+
+#: models.py:30
+msgid "Basic Institution ID in ePUAP"
+msgstr "Podstawowy identyfikator instytucji w systemie ePUAP"
+
+#: models.py:31 models.py:106
+msgid "REGON  number"
+msgstr "Kod REGON"
+
+#: models.py:32 models.py:67
+msgid "Active status"
+msgstr "Status aktywności"
+
+#: models.py:32
+msgid "Is the institution active?"
+msgstr "Czy instytucja jest aktywna?"
+
+#: models.py:49 models.py:65 models.py:104 models.py:135
+msgid "Institution"
+msgstr "Instytucja"
+
+#: models.py:50
+msgid "Institutions"
+msgstr "Instytucje"
+
+#: models.py:67
+msgid "Is the ESP active?"
+msgstr "Czy ESP jest aktywna?"
+
+#: models.py:76
+msgid "ESP"
+msgstr "ESP"
+
+#: models.py:77
+msgid "ESPs"
+msgstr "ESPy"
+
+#: models.py:87
+msgid "XML data"
+msgstr "Dane XML"
+
+#: models.py:88
+msgid "Data from load RESP.xml"
+msgstr "Data z wczytania pliku RESP.xml"
+
+#: models.py:96
+msgid "RESP"
+msgstr "RESP"
+
+#: models.py:97
+msgid "RESPs"
+msgstr "RESPy"
+
+#: models.py:107
+msgid "Response data"
+msgstr "Dane odpowiedzi"
+
+#: models.py:107
+msgid "Data for database search results REGON BIP1"
+msgstr "Dane wyszukiwania w bazie REGON BIP1"
+
+#: models.py:120 models.py:128
+msgid "REGON"
+msgstr "REGON"
+
+#: models.py:121
+msgid "REGONs"
+msgstr "REGONy"
+
+#: models.py:136
+msgid "Administration division unit"
+msgstr "Jednostka samorządu terytorialnego"
+
+#: models.py:140
+msgid "JSTConnection"
+msgstr "Skojarzenie JST"
+
+#: models.py:141
+msgid "JSTConnections"
+msgstr "Skojarzenia JST"
+
+#: templates/institutions/_dict_table.html:4
+msgid "Key"
+msgstr "Klucz"
+
+#: templates/institutions/_dict_table.html:5
+msgid "Value"
+msgstr "Wartość"
+
+#: templates/institutions/institution_detail.html:15
+msgid "Near institution"
+msgstr "Pobliskie instytucje"
+
+#: templates/institutions/institution_detail.html:27
+msgid "Electronic delivery boxes"
+msgstr "Elektroniczne skrzynki podawcze"
+
+#: templates/institutions/institution_no_location_name.html:20
+msgid "Unknown"
+msgstr "Nieznane"
+
+#: templates/institutions/institution_search.html:8
+msgid "Search for..."
+msgstr "Wyszukaj…"
+
+#: templates/institutions/institution_search.html:11
+msgid "Search!"
+msgstr "Szukaj!"
+
+#: urls.py:8
+msgid "^institution-(?P<epuap_id>[\\w_-]+)/$"
+msgstr "^instytucja-(?P<epuap_id>[\\w_-]+)/$"
+
+#: urls.py:13
+msgid "^search_institution/$"
+msgstr "^wyszukaj_instytucje/$"
+
+#: urls.py:18
+msgid "^region-(?P<pk>[\\d]+)/$"
+msgstr "^region-(?P<pk>[\\d]+)/$"
+
+#: urls.py:22
+msgid "^stats/"
+msgstr "^statystyki/"
