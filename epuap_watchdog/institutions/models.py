@@ -17,6 +17,9 @@ class InstitutionQuerySet(models.QuerySet):
         return self.filter(jstconnection__jst__tree_id=jst.tree_id,
                            jstconnection__jst__lft__range=(jst.lft, jst.rght))
 
+    def with_jst(self):
+        return self.select_related('jstconnection__jst')
+
 
 @reversion.register()
 @python_2_unicode_compatible
@@ -37,13 +40,17 @@ class Institution(TimeStampedModel):
     def is_located_in_name(self):
         return any(v in self.name.lower() for v in [' w ', ' we'])
 
+    def esp_generator(self):
+        return ({'name': "/%s/%s " % (self.epuap_id, esp.name), 'active': esp.active}
+                for esp in self.esp_set.all())
+
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = _("Institution")
         verbose_name_plural = _("Institutions")
         ordering = ['created', ]
-
-    def __str__(self):
-        return self.name
 
     def get_absolute_url(self):
         return reverse('institutions:details', kwargs={'slug': self.slug})
