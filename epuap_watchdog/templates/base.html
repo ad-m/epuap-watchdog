@@ -50,9 +50,9 @@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <form class="navbar-form navbar-right">
+                <form class="navbar-form navbar-right" action="{% url 'search' %}">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="{% trans 'Enter your search phrase' %}">
+                        <input type="text" class="form-control" name="q" placeholder="{% trans 'Enter your search phrase' %}">
                     </div>
                     <button type="submit" class="btn btn-default">{% trans 'Search' %}</button>
                 </form>
@@ -77,6 +77,7 @@
                             <li><a href="{% url 'diverge-name' %}">{%  trans 'Diverge name' %}</a></li>
                             <li><a href="{% url 'no-location-name' %}">{%  trans 'No location name' %}</a></li>
                             <li><a href="{% url 'numeral-stat' %}">{%  trans 'Numeral stats' %}</a></li>
+                            <li><a href="{% url 'name-counts' %}">{%  trans 'Names counts' %}</a></li>
                         </ul>
                     </li>
                 </ul>
