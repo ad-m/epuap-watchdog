@@ -19,7 +19,7 @@
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$MODULE_DIR$/epuap-watchdog/templates" />
+        <option value="$MODULE_DIR$/epuap_watchdog/institutions/templates" />
       </list>
     </option>
   </component>
