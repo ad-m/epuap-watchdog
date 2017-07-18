@@ -32,7 +32,7 @@ class TERCView(DetailView):
 class InstitutionSearchView(SelectRelatedMixin, ListView):
     model = Institution
     paginate_by = 50
-    select_related = ['regon_data', 'jstconnection__jst']
+    select_related = ['jstconnection__jst']
     template_name_suffix = '_search'
 
     def get_query(self):
@@ -50,7 +50,7 @@ class InstitutionSearchView(SelectRelatedMixin, ListView):
 
 class InstitutionDetailView(SelectRelatedMixin, DetailView):
     model = Institution
-    select_related = ['regon_data', 'jstconnection__jst', 'jstconnection__jst__parent']
+    select_related = ['regon_data', 'resp', 'jstconnection__jst', 'jstconnection__jst__parent']
     slug_field = 'epuap_id'
     slug_url_kwarg = 'epuap_id'
 
