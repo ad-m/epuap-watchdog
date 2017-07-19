@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-18 14:40+0000\n"
-"PO-Revision-Date: 2017-07-18 16:40+0200\n"
+"POT-Creation-Date: 2017-07-19 10:57+0000\n"
+"PO-Revision-Date: 2017-07-19 12:57+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -311,3 +311,15 @@ msgstr "Statystyki numeryczne"
 #: templates/base.html:80
 msgid "Names counts"
 msgstr "Powtórzenia nazw"
+
+#: templates/base.html:103
+msgid "Created with the hope of coming e-administration."
+msgstr "Stworzone z nadzieją na nadejście e-administracji."
+
+#: templates/base.html:103
+msgid "API"
+msgstr "API"
+
+#: templates/base.html:103
+msgid "Source code"
+msgstr "Kod źródłowy"
