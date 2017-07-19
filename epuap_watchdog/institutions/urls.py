@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from . import views
 
+
 urlpatterns = [
     url(
         regex=_(r'^institution-(?P<epuap_id>[\w_-]+)/$'),
@@ -21,7 +22,7 @@ urlpatterns = [
     ),
     url(_(r'^stats/'), include('epuap_watchdog.institutions.analysis.urls'), name='institution_stats'),
     url(
-        regex=r'',
+        regex=r'^$',
         view=views.HomeView.as_view(),
         name='home'
     ),

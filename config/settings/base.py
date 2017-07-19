@@ -52,6 +52,8 @@ THIRD_PARTY_APPS = [
     'teryt_tree',
     'reversion',
     'bootstrap_pagination',
+    'atom',
+    'rest_framework',
 ]
 
 # Apps specific for this project go here.
@@ -283,3 +285,9 @@ ADMIN_URL = r'^admin/'
 # ------------------------------------------------------------------------------
 GUSREGON_API_KEY = env('GUSREGON_API_KEY', default='abcde12345abcde12345')
 GUSREGON_SANDBOX = env.bool('GUSREGON_SANDBOX', default=True)
+TESTS_USER_FACTORY = 'epuap_watchdog.users.factories.UserFactory'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100
+}

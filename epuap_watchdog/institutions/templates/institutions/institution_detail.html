@@ -2,15 +2,16 @@
 {% load i18n %}
 
 {% block javascript %}
-{{ block.super }}
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v2.10&appId=948814505206565";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+    {{ block.super }}
+    <div id="fb-root"></div>
+    <script>(function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v2.10&appId=948814505206565";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 {% endblock %}
 
 {% block content %}
@@ -25,18 +26,25 @@
     {% endif %}
     <h2>{{ object }}</h2>
     {% blocktrans with epuap_id=object.epuap_id %}
-    <p>The way of addressing ePUAP messages is broken. Requires knowledge of the identifier of the institution. Automatic hints from the system may be incomplete, preventing you from contacting the authority you want.</p>
+        <p>The way of addressing ePUAP messages is broken. Requires knowledge of the identifier of the institution.
+            Automatic hints from the system may be incomplete, preventing you from contacting the authority you
+            want.</p>
 
-    <p>If you want to contact the office, go to the "<a href="https://epuap.gov.pl/wps/myportal/strefa-klienta/katalog-spraw/inne-sprawy-urzedowe/najczesciej-zalatwiane-sprawy/pismo-ogolne-do-podmiotu-publicznego">General letter</a>" form. In the "Set / change address" field, type <code>{{ epuap_id }}</code> to write to the {{ object }}. If you want to contact another office - find it on this page.</p>
+        <p>If you want to contact the office, go to the "<a
+                href="https://epuap.gov.pl/wps/myportal/strefa-klienta/katalog-spraw/inne-sprawy-urzedowe/najczesciej-zalatwiane-sprawy/pismo-ogolne-do-podmiotu-publicznego">General
+            letter</a>" form. In the "Set / change address" field, type <code>{{ epuap_id }}</code> to write to
+            the {{ object }}. If you want to contact another office - find it on this page.</p>
 
-    <p>It is not worth looking for other ePUAP forms. They may initially make a good impression, but then it turns out that, for example, they are not available at the office, although such service should be available. These are in about 90% trap.</p>
+        <p>It is not worth looking for other ePUAP forms. They may initially make a good impression, but then it turns
+            out that, for example, they are not available at the office, although such service should be available.
+            These are in about 90% trap.</p>
 
-    <p>The detailed instructions for using the general letter are as follows:</p>
+        <p>The detailed instructions for using the general letter are as follows:</p>
     {% endblocktrans %}
 
-    <div class="fb-post" data-href="https://www.facebook.com/adam.dobrawy/videos/669128666607697/" data-width="500" data-show-text="true"><blockquote cite="https://www.facebook.com/adam.dobrawy/videos/669128666607697/" class="fb-xfbml-parse-ignore"><p>ePUAP to zazwyczaj skuteczna forma korespondencji z administracj&#x105;.
-        Co istotne, gwarantuje ona niezaprzeczalno&#x15b;&#x107; dor&#x119;...</p>Posted by <a href="https://www.facebook.com/adam.dobrawy">Breguła Karol</a> on&nbsp;<a href="https://www.facebook.com/adam.dobrawy/videos/669128666607697/">Monday, May 8, 2017</a></blockquote></div>
-
+    <div class="embed-responsive embed-responsive-16by9">
+        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/slswXhfqSvo"></iframe>
+    </div>
 
     <h3>{% trans 'See also near institution' %}</h3>
     {% include 'institutions/_list.html' with object_list=near_institution %}
