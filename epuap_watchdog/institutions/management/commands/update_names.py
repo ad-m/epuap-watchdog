@@ -21,8 +21,11 @@ class Command(BaseCommand):
                    ' Siedzibą ': ' siedzibą ',
                    ' w Likwidacji': ' w likwidacji',
                    ' M.St.Warszawy': ' m. st. Warszawy',
-                   ' Do ': ' do '}
+                   ' Do ': ' do ',
+                   ' i I II St. ': ' I i II St. ',
+                   ' Im.': ' im. ', ' ': ' '}
     RE_SPACE = re.compile(' {1,}')
+    RE_ROMAN = re.compile(r' ([Iixv]{2,})')
 
     def add_arguments(self, parser):
         parser.add_argument('--comment', required=True, help="Description of changes eg. data source description")
@@ -41,9 +44,11 @@ class Command(BaseCommand):
 
     def normalize(self, name):
         name = self.RE_SPACE.sub(' ', name)
+
         if name[0] == '"' and name[-1] == '"':
             name = name[1:-1]
         name = name.title()
+        name = self.RE_ROMAN.sub(lambda x: x.group(0).upper(), name)
         name = reduce(lambda x, y: x.replace(y, self.REPLACE_MAP[y]), self.REPLACE_MAP.keys(), name)
         return name
 
@@ -55,6 +60,7 @@ class Command(BaseCommand):
                 name_regon = self.normalize(institution.regon_data.data.get('nazwa'))
                 best_name = name_resp if len(name_resp) > len(name_regon) else name_regon
                 if institution.name != best_name:
+                    print(" " + institution.name, "\n", best_name, "\n")
                     institution.name = best_name
                     institution.save()
                     self.updated += 1
