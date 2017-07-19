@@ -60,7 +60,7 @@ class Command(BaseCommand):
                 name_regon = self.normalize(institution.regon_data.data.get('nazwa'))
                 best_name = name_resp if len(name_resp) > len(name_regon) else name_regon
                 if institution.name != best_name:
-                    print(" " + institution.name, "\n", best_name, "\n")
+                    # print(" " + institution.name, "\n", best_name, "\n")
                     institution.name = best_name
                     institution.save()
                     self.updated += 1
