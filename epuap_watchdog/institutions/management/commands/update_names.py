@@ -62,7 +62,7 @@ class Command(BaseCommand):
                 if institution.name != best_name:
                     print(" " + institution.name, "\n", best_name, "\n")
                     institution.name = best_name
-                    # institution.save()
+                    institution.save()
                     self.updated += 1
                 else:
                     self.skipped += 1
