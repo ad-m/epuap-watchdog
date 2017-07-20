@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n institutions_tags email_obfuscator  %}
 
 {% block javascript %}
     {{ block.super }}
@@ -45,7 +45,38 @@
     <div class="embed-responsive embed-responsive-16by9">
         <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/slswXhfqSvo"></iframe>
     </div>
-
+    {% if object.regon_data.data %}
+        {% trans 'If you do not want to use the electronic system we present below the contact data from the REGON registry:' %}
+        <address>
+            <strong>{{ object.regon_data.data.nazwa }}</strong><br>
+            {{ object.regon_data.data.adsiedzulica_nazwa }} {{ object.regon_data.data.adsiedznumernieruchomosci }}
+            {% if object.regon_data.data.adsiedznumerlokalu %} /
+                {{ object.regon_data.data.adsiedznumerlokalu }} {% endif %}<br>
+            {{ object.regon_data.data.adsiedzmiejscowoscpoczty_nazwa }} {{ object.regon_data.data.adsiedzkodpocztowy | format_postcode }}<br>
+            {% if object.regon_data.data.numertelefonu %}
+                <abbr title="{% trans 'Phone' %}">P:</abbr> {{ object.regon_data.data.numertelefonu }}<br>
+            {% endif %}
+            {% if object.regon_data.data.nip %}
+                <abbr title="{% trans 'Tax identification number' %}">{%  trans 'NIP' %}:</abbr> {{ object.regon_data.data.nip }}<br>
+            {% endif %}
+            {% if object.regon_data.data.regon %}
+                <abbr title="{% trans 'Number in the National Economy Register' %}">{% trans 'REGON' %}:</abbr> {{ object.regon_data.data.regon }}<br>
+            {% endif %}
+            {% if object.regon_data.data.adresemail or object.regon_data.data.adresemail2 %}
+                <abbr title="{% trans 'Email' %}">@:</abbr>
+                {% if object.regon_data.data.adresemail %}
+                    {{ object.regon_data.data.adresemail | obfuscate_mailto }}
+                {% endif %}
+                {% if object.regon_data.data.adresemail and object.regon_data.data.adresemail2 and object.regon_data.data.adresemail2 != object.regon_data.data.adresemail%}
+                    /
+                {% endif %}
+                {% if object.regon_data.data.adresemail2 and object.regon_data.data.adresemail2 != object.regon_data.data.adresemail%}
+                    {{ object.regon_data.data.adresemail2 | obfuscate_mailto }}
+                {% endif %}
+                <br>
+            {% endif %}
+        </address>
+    {% endif %}
     <h3>{% trans 'See also near institution' %}</h3>
     {% include 'institutions/_list.html' with object_list=near_institution %}
 

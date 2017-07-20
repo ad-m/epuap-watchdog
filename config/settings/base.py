@@ -54,6 +54,7 @@ THIRD_PARTY_APPS = [
     'bootstrap_pagination',
     'atom',
     'rest_framework',
+    'email_obfuscator',
 ]
 
 # Apps specific for this project go here.

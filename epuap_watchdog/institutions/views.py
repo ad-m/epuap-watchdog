@@ -2,6 +2,7 @@ from itertools import islice
 
 from braces.views import SelectRelatedMixin
 from cached_property import cached_property
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 from teryt_tree.models import JednostkaAdministracyjna
@@ -46,7 +47,9 @@ class InstitutionSearchView(SelectRelatedMixin, ListView):
 
     def get_queryset(self):
         qs = super(InstitutionSearchView, self).get_queryset()
-        return qs.filter(name__icontains=self.get_query())
+        return qs.filter(Q(name__icontains=self.get_query()) |
+                         Q(resp__name__icontains=self.get_query()) |
+                         Q(regon_data__name__icontains=self.get_query()))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -9,7 +9,7 @@
     </ol>
     <p>
         {% if object.children.all %}
-            Przejdź do: {% for object in object.children.all %}
+            {% trans 'Go to:' %} {% for object in object.children.all %}
             <a href="{% url 'terc' pk=object.id %}">{{ object }}</a>
             {% if not forloop.last %}
                 &bull;
@@ -20,6 +20,6 @@
 
     <h1>{{ object }}</h1>
     {% bootstrap_paginate page_obj %}
-    {%  include 'institutions/_list.html' with object_list=object_list %}
+    {% include 'institutions/_list.html' with object_list=object_list %}
     {% bootstrap_paginate page_obj %}
 {% endblock %}

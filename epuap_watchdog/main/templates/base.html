@@ -52,12 +52,13 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <form class="navbar-form navbar-right" action="{% url 'search' %}">
                     <div class="form-group">
-                        <input type="text" class="form-control" name="q" placeholder="{% trans 'Enter your search phrase' %}">
+                        <input type="text" class="form-control" name="q"
+                               placeholder="{% trans 'Enter your search phrase' %}">
                     </div>
                     <button type="submit" class="btn btn-default">{% trans 'Search' %}</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">{% trans 'About page' %}</a></li>
+                    <li><a href="{% url 'about' %}">{% trans 'About page' %}</a></li>
                     <li><a href="mailto:polecony@jawnosc.tk">{% trans 'Contact' %}</a></li>
                     <li><a href="https://github.com/ad-m/epuap-watchdog/issues/">{% trans 'Criticism' %}</a></li>
                     <li class="dropdown">
@@ -74,10 +75,10 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">{% trans 'Analysis' %} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{% url 'diverge-name' %}">{%  trans 'Diverge name' %}</a></li>
-                            <li><a href="{% url 'no-location-name' %}">{%  trans 'No location name' %}</a></li>
-                            <li><a href="{% url 'numeral-stat' %}">{%  trans 'Numeral stats' %}</a></li>
-                            <li><a href="{% url 'name-counts' %}">{%  trans 'Names counts' %}</a></li>
+                            <li><a href="{% url 'diverge-name' %}">{% trans 'Diverge name' %}</a></li>
+                            <li><a href="{% url 'no-location-name' %}">{% trans 'No location name' %}</a></li>
+                            <li><a href="{% url 'numeral-stat' %}">{% trans 'Numeral stats' %}</a></li>
+                            <li><a href="{% url 'name-counts' %}">{% trans 'Names counts' %}</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -98,11 +99,15 @@
 
 
 </div> <!-- /container -->
-    <footer class="footer">
-      <div class="container">
-        <p class="text-muted">{% trans 'Created with the hope of coming e-administration.' %} &bull; <a href="{% url 'api-root' %}">{%  trans 'API' %}</a> &bull; <a href="https://github.com/ad-m/epuap-watchdog/">{%  trans 'Source code' %}</a></p>
-      </div>
-    </footer>
+<footer class="footer">
+    <div class="container">
+        <p class="text-muted">
+            {% trans 'Created with the hope of coming e-administration.' %} &bull;
+            <a href="{% url 'api-root' %}">{% trans 'API' %}</a> &bull;
+            <a href="https://github.com/ad-m/epuap-watchdog/">{% trans 'Source code' %}</a>
+        </p>
+    </div>
+</footer>
 {% block modal %}{% endblock modal %}
 
 <!-- Le javascript

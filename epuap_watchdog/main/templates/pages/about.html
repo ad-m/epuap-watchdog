@@ -1,1 +1,91 @@
 {% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+    {% blocktrans %}
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title">
+                        What is the purpose of this site?
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <p>The website is currently designed to make it easier for you to find contact information for ePUAP
+                        offices.</p>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title">
+                        What things I can get on the Internet with the authorities?
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <p>Few official matters in Poland are possible to settle on the Internet. Unfortunately, there is no
+                        universal right to deal electronically, and only certain procedures allow such an opportunity. I
+                        advise contacting a solicitor if you do not want to study the rules and case law
+                        for hours.</p>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title">
+                        What is the data source for the page?
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <p>The website is designed to use only publicly available official information. A collection of
+                        address packs in ePUAP system, REGON database and TERC database has been used.</p>
+
+                    <p>We lack the appropriate quality of geographic data. We hope that the relevant authorities will
+                        publish it soon.</p>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title">
+                        Here is mistake!
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <p>Comments on the site are welcome to report by the criticism section above. The source code is
+                        public.</p>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title">
+                        There is security issue!
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <p>Please send urgently using my contact address naczelnik@jawnosc.tk detailed information to
+                        recreate the incident.</p>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title">
+                        This site is very ugly.
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <p>Unfortunately, I agree with you. I am not front-end developer. You can change it. Go to the
+                        criticism section above.</p>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title">
+                        Great site I can give something back?
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <p>Nice to ask you this question! You can tell this friend page. You can fix the problems listed in
+                        the criticism section. If you do not have friends and you can not fix problems with the site -
+                        yo can <a href="https://ochrona.jawne.info.pl/about/">donate to me</a>.</p>
+                </div>
+            </div>
+        </div>
+    {% endblocktrans %}
+{% endblock %}

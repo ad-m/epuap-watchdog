@@ -20,3 +20,8 @@ def diff_text(a, b):
               'insert': lambda i1, i2, j1, j2: "<strong>%s</strong>" % (b[j1:j2], ),
               'equal': lambda i1, i2, j1, j2: a[i1:i2]}
     return safe("".join(opcode[tag](*args) for tag, *args in s.get_opcodes()))
+
+
+@register.filter
+def format_postcode(code):
+    return code[0:2]+"-"+code[2:5]

@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
-
-{%  block content %}
-<div class="jumbotron">
-  <h1>Wyślij cyfrowy list polecony!</h1>
-  <p>Dzięki tej stronie dowiesz się w jaki sposób możesz kontaktować się z administracją cyfrowo.</p>
-  <p><a class="btn btn-primary btn-lg" href="{%  url 'about' %}" role="button">Dowiedź się więcej</a> lub <a class="btn btn-default btn-lg" href="{%  url 'search' %}" role="button">Wyszukaj urząd</a></p>
-</div>
-{%  endblock %}
+{% load i18n %}
+{% block content %}
+    <div class="jumbotron">
+        <h1>{% trans 'Digital send a registered letter!' %}</h1>
+        <p>{% trans 'With this site you will learn how you can contact the administration digitally.' %}</p>
+        <p>
+            <a class="btn btn-primary btn-lg" href="{% url 'about' %}" role="button">{% trans 'Learn more' %}</a>
+            {% trans 'or' %}
+            <a class="btn btn-default btn-lg" href="{% url 'search' %}" role="button">{% trans 'Search office' %}</a>
+        </p>
+    </div>
+{% endblock %}

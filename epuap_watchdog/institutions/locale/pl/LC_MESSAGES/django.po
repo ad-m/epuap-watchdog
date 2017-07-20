@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-19 11:04+0000\n"
-"PO-Revision-Date: 2017-07-19 13:05+0200\n"
+"POT-Creation-Date: 2017-07-20 15:16+0000\n"
+"PO-Revision-Date: 2017-07-20 17:16+0200\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -88,6 +88,7 @@ msgid "Data for database search results REGON BIP1"
 msgstr "Dane wyszukiwania w bazie REGON BIP1"
 
 #: models.py:120 models.py:128
+#: templates/institutions/institution_detail.html:63
 msgid "REGON"
 msgstr "REGON"
 
@@ -122,6 +123,30 @@ msgstr "Urząd"
 #: templates/institutions/_list.html:6
 msgid "Place"
 msgstr "Miejscowość"
+
+#: templates/institutions/home.html:5
+msgid "Digital send a registered letter!"
+msgstr "Wyślij cyfrowy list polecony!"
+
+#: templates/institutions/home.html:6
+msgid ""
+"With this site you will learn how you can contact the administration "
+"digitally."
+msgstr ""
+"Dzięki tej stronie dowiesz się w jaki sposób możesz kontaktować się z "
+"administracją cyfrowo."
+
+#: templates/institutions/home.html:8
+msgid "Learn more"
+msgstr "Dowiedź się więcej"
+
+#: templates/institutions/home.html:9
+msgid "or"
+msgstr "lub"
+
+#: templates/institutions/home.html:10
+msgid "Search office"
+msgstr "Wyszukaj urząd"
 
 #: templates/institutions/institution_detail.html:28
 #, python-format
@@ -176,14 +201,42 @@ msgstr ""
 "    "
 
 #: templates/institutions/institution_detail.html:49
+msgid ""
+"If you do not want to use the electronic system we present below the contact "
+"data from the REGON registry:"
+msgstr ""
+"Jeżeli nie chcesz używać elektronicznego systemu to poniżej przedstawiamy "
+"dane kontaktowe z rejestru REGON:"
+
+#: templates/institutions/institution_detail.html:57
+msgid "Phone"
+msgstr "Numer telefonu"
+
+#: templates/institutions/institution_detail.html:60
+msgid "Tax identification number"
+msgstr "Numer identyfikacji podatkowej"
+
+#: templates/institutions/institution_detail.html:60
+msgid "NIP"
+msgstr "NIP"
+
+#: templates/institutions/institution_detail.html:63
+msgid "Number in the National Economy Register"
+msgstr "Numer w Rejestrze Gospodarki Narodowej"
+
+#: templates/institutions/institution_detail.html:66
+msgid "Email"
+msgstr "E-mail"
+
+#: templates/institutions/institution_detail.html:80
 msgid "See also near institution"
 msgstr "Zobacz także pobliskie instytucje"
 
-#: templates/institutions/institution_detail.html:55
+#: templates/institutions/institution_detail.html:86
 msgid "Show collected data"
 msgstr "Pokaż zebrane dane"
 
-#: templates/institutions/institution_detail.html:61
+#: templates/institutions/institution_detail.html:92
 msgid "Electronic delivery boxes"
 msgstr "Elektroniczne skrzynki podawcze"
 
@@ -195,21 +248,28 @@ msgstr "Wyszukaj…"
 msgid "Search!"
 msgstr "Szukaj!"
 
-#: urls.py:8
+#: templates/institutions/institution_terc.html:12
+msgid "Go to:"
+msgstr "Przejdź do:"
+
+#: urls.py:9
 msgid "^institution-(?P<epuap_id>[\\w_-]+)/$"
 msgstr "^instytucja-(?P<epuap_id>[\\w_-]+)/$"
 
-#: urls.py:13
+#: urls.py:14
 msgid "^search_institution/$"
 msgstr "^wyszukaj_instytucje/$"
 
-#: urls.py:18
+#: urls.py:19
 msgid "^region-(?P<pk>[\\d]+)/$"
 msgstr "^region-(?P<pk>[\\d]+)/$"
 
-#: urls.py:22
+#: urls.py:23
 msgid "^stats/"
 msgstr "^statystyki/"
+
+#~ msgid "Przejdź do:"
+#~ msgstr "Przejdź do:"
 
 #~ msgid "Unknown"
 #~ msgstr "Nieznane"
