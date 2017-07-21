@@ -75,4 +75,4 @@ epuap-watchdog/media/
 staticfiles/
 
 .cache/
-
+ansible/*.retry
