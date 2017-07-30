@@ -10,6 +10,7 @@ from gusregon import GUS
 from tqdm import tqdm
 
 from epuap_watchdog.institutions.models import Institution, REGON, REGONError
+from epuap_watchdog.institutions.utils import normalize_regon
 
 requests_cache.configure()
 
@@ -33,7 +34,7 @@ class Command(BaseCommand):
         for institution in self.get_iter(qs, no_progress):
             with transaction.atomic() and reversion.create_revision():
                 try:
-                    data = gus.search(regon=institution.regon)
+                    data = gus.search(regon=normalize_regon(institution.regon))
                 except TypeError as e:
                     regon_obj = REGON.objects.create(institution=institution, regon=institution.regon)
                     REGONError.objects.create(regon=regon_obj, exception=repr(e))
