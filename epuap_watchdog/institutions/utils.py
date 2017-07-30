@@ -36,6 +36,8 @@ def normalize(name):
 
 
 def normalize_regon(regon):
+    if regon:
+        regon = regon.replace(' ', '').replace('-', '')
     if regon and len(regon) == 14 and regon[-5:] == "0"*5:
         return regon[:14-5]
     return regon

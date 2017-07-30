@@ -94,6 +94,8 @@ class NormalizeRegonTest(FastTestCase):
         self.assertEqual(normalize_regon('00068362500000'), '000683625')
         self.assertEqual(normalize_regon('000683625'), '000683625')
         self.assertEqual(normalize_regon('00068362500001'), '00068362500001')
+        self.assertEqual(normalize_regon('000683625-00001'), '00068362500001')
+        self.assertEqual(normalize_regon('000683625-00000'), '000683625')
         self.assertEqual(normalize_regon(None), None)
 
 
