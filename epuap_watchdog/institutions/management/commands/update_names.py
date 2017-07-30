@@ -1,5 +1,3 @@
-import re
-from functools import reduce
 from pprint import pprint
 
 from django.core.management.base import BaseCommand
@@ -7,38 +5,7 @@ from django.db import transaction
 from tqdm import tqdm
 
 from epuap_watchdog.institutions.models import Institution
-
-REPLACE_MAP = ((' We ', ' we '),
-               (' W ', ' w '),
-               (' Z Siedz.W ', ' z siedzibą w '),
-               (' I ', ' i '),
-               (' Dr ', ' dr '),
-               (' Im. ', ' im. '),
-               (' Z ', ' z '),
-               (' Nr ', ' nr '),
-               (' Siedzibą ', ' siedzibą '),
-               (' w Likwidacji', ' w likwidacji'),
-               (' M.St.Warszawy', ' m. st. Warszawy'),
-               (' Do ', ' do '),
-               (' i I II St. ', ' I i II St. '),
-               (' Im.', ' im. '),
-               ('  ', ' '),
-               (' Dla ', ' Dla '),
-               ('\'\'', '"'),
-               (' Samorzadowy ', ' samorządowy '))
-RE_SPACE = re.compile(' {1,}')
-RE_ROMAN = re.compile(r'( [IiXxVv]{2,}|^[IiXxVv]{2,})')
-
-
-def normalize(name):
-    name = RE_SPACE.sub(' ', name)
-    if name[0] == '"' and name[-1] == '"':
-        name = name[1:-1]
-    name = name.title()
-    name = RE_ROMAN.sub(lambda x: x.group(0).upper(), name)
-    name = reduce(lambda x, y: x.replace(y[0], y[1]), REPLACE_MAP, name)
-    name = RE_SPACE.sub(' ', name)
-    return name
+from epuap_watchdog.institutions.utils import normalize
 
 
 class Command(BaseCommand):
@@ -70,11 +37,11 @@ class Command(BaseCommand):
                 if institution.name != best_name:
                     if dry_run:
                         pprint({'id': institution.id,
-                               'best_name': best_name,
-                               'current_x': institution.name,
-                               'resp_name': institution.resp.data.get('name'),
-                               'regn_name': institution.regon_data.data.get('nazwa')
-                               })
+                                'best_name': best_name,
+                                'current_x': institution.name,
+                                'resp_name': institution.resp.data.get('name'),
+                                'regn_name': institution.regon_data.data.get('nazwa')
+                                })
                     institution.name = best_name
                     if not dry_run:
                         institution.save(update_fields=['name'])

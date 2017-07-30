@@ -1,14 +1,19 @@
+from functools import reduce
+
 import reversion
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.postgres.fields import JSONField
+from django.contrib.postgres.search import SearchVector
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models import Q
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
 from reversion.models import Version
 from teryt_tree.models import JednostkaAdministracyjna
 
+from epuap_watchdog.institutions.utils import normalize, normalize_regon
 from epuap_watchdog.users.models import User
 
 
@@ -19,6 +24,26 @@ class InstitutionQuerySet(models.QuerySet):
 
     def with_jst(self):
         return self.select_related('jstconnection__jst')
+
+    def search(self, query):
+        attribs = ['name', ]
+        return self.annotate(search=SearchVector(attribs[0], config='simple')).filter(search=query)
+
+    def guest_by_name(self, name, confidence=1):
+        if not name:
+            return self.none()
+        normalized_name = normalize(name)
+        attribs = ['name__startswith',
+                   'regon_data__name__startswith',
+                   'regon_data__data__nazwaskrocona',
+                   'resp__name__startswith']
+        if confidence > 1:
+            attribs = ['regon_data__name__icontains',
+                       'regon_data__data__nazwaskrocona']
+        q_f = reduce(lambda x, y: x | Q(**{y: name}) | Q(**{y: normalized_name}) | Q(**{y: name.upper()}),
+                     attribs,
+                     Q())
+        return self.filter(q_f)
 
 
 @reversion.register()
@@ -43,7 +68,6 @@ class Institution(TimeStampedModel):
     def esp_generator(self):
         return ({'name': "/%s/%s " % (self.epuap_id, esp.name), 'active': esp.active}
                 for esp in self.esp_set.all())
-
 
     class Meta:
         verbose_name = _("Institution")
@@ -98,15 +122,47 @@ class RESP(TimeStampedModel):
         ordering = ['created']
 
 
+class REGONQuerySet(models.QuerySet):
+    def guest_by_name(self, name, email, confidence=1):
+        if not name:
+            return self.none()
+        normalized_name = normalize(name)
+        attribs = ['name__startswith',
+                   'data__nazwaskrocona']
+        q_f = reduce(lambda x, y: x | Q(**{y: name}) | Q(**{y: normalized_name}) | Q(**{y: name.upper()}) | Q(**{y: normalized_name.upper()}),
+                     attribs,
+                     Q())
+        if not email:
+            return self.filter(q_f)
+
+        domain = email.split('@', 2)[1].lower()
+        q_f |= Q(data__adresstronyinternetowej=domain) | Q(data__adresstronyinternetowej="www.{}".format(domain))
+        q_f |= Q(data__adresstronyinternetowej=domain.upper()) | Q(data__adresstronyinternetowej="www.{}".format(domain).upper())
+
+        result = list(self.filter(q_f))
+
+        if result:
+            return result
+
+        all_possible = REGON.objects.exclude(~Q(Q(data__adresemail='') & Q(data__adresemail2=""))).iterator()
+        return filter(lambda x: x.data.get('adresemail', '').upper().endswith("@" + domain) |
+                                x.data.get('adresemail2', '').upper().endswith("@" + domain), all_possible)
+
+    def regon(self, regon):
+        return self.get(regon=normalize_regon(regon))
+
+
 @reversion.register()
 @python_2_unicode_compatible
 class REGON(TimeStampedModel):
-    institution = models.OneToOneField(Institution, verbose_name=_("Institution"), related_name="regon_data")
+    institution = models.OneToOneField(Institution, verbose_name=_("Institution"), related_name="regon_data",
+                                       null=True, blank=True)
     name = models.CharField(max_length=200, db_index=True, verbose_name=_("Name"))
-    regon = models.CharField(verbose_name=_("REGON  number"), max_length=20, db_index=True, null=True)
+    regon = models.CharField(verbose_name=_("REGON  number"), max_length=20, db_index=True, unique=True)
     data = JSONField(verbose_name=_("Response data"), help_text=_("Data for database search results REGON BIP1"),
                      null=True, blank=True)
     versions = GenericRelation(Version)
+    objects = REGONQuerySet.as_manager()
 
     def __str__(self):
         return "REGON {} at {}".format(self.regon, self.created.strftime("%Y-%m-%d %H-%M"))
@@ -114,6 +170,7 @@ class REGON(TimeStampedModel):
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if self.data:
             self.name = self.data.get('nazwa', '')
+        self.regon = normalize_regon(self.regon)
         return super().save(force_insert, force_update, using, update_fields)
 
     class Meta:

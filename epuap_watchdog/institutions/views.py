@@ -46,10 +46,7 @@ class InstitutionSearchView(SelectRelatedMixin, ListView):
         return self.request.GET.get('q', 'ministerstwo cyfryzacji')
 
     def get_queryset(self):
-        qs = super(InstitutionSearchView, self).get_queryset()
-        return qs.filter(Q(name__icontains=self.get_query()) |
-                         Q(resp__name__icontains=self.get_query()) |
-                         Q(regon_data__name__icontains=self.get_query()))
+        return super(InstitutionSearchView, self).get_queryset().search(self.get_query())
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

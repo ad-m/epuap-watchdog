@@ -3,9 +3,8 @@ from unittest import TestCase as FastTestCase
 
 from atom.ext.rest_framework.mixins import ViewSetTestCaseMixin
 
-from epuap_watchdog.institutions.management.commands.update_names import normalize
-from .models import RESP, REGONError, REGON, JSTConnection, Institution, ESP
-from .factories import RESPFactory, REGONFactory, REGONErrorFactory, JSTConnectionFactory, InstitutionFactory, ESPFactory
+from epuap_watchdog.institutions.utils import normalize, normalize_regon
+from .factories import RESPFactory, REGONFactory, JSTConnectionFactory, InstitutionFactory, ESPFactory
 
 GLOBAL_QUERY_LIMIT = 20
 
@@ -52,8 +51,6 @@ class NormalizeNameTest(FastTestCase):
              ('ŻŁOBEK POMNIK MATKI POLKI',
               'Żłobek Pomnik Matki Polki'),
 
-             # ('ŻŁOBEK POMNIK MATKI POLKI',
-             #  'ŻŁOBEK POMNIK MATKI POLKI'),
              ('ŻŁOBEK NR 9 W OPOLU',
               'Żłobek nr 9 w Opolu'),
 
@@ -88,6 +85,15 @@ class NormalizeNameTest(FastTestCase):
             )
 
     def test_expected_result(self):
-        for x in range(1, 100):
-            for i, (source_name, expected_name) in enumerate(self.rules):
-                self.assertEqual(normalize(source_name), expected_name, "Fail test no. {}".format(i + 1))
+        for i, (source_name, expected_name) in enumerate(self.rules):
+            self.assertEqual(normalize(source_name), expected_name, "Fail test no. {}".format(i + 1))
+
+
+class NormalizeRegonTest(FastTestCase):
+    def test_excpected_result(self):
+        self.assertEqual(normalize_regon('00068362500000'), '000683625')
+        self.assertEqual(normalize_regon('000683625'), '000683625')
+        self.assertEqual(normalize_regon('00068362500001'), '00068362500001')
+        self.assertEqual(normalize_regon(None), None)
+
+
