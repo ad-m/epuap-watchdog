@@ -165,7 +165,7 @@ class REGON(TimeStampedModel):
     objects = REGONQuerySet.as_manager()
 
     def __str__(self):
-        return "REGON {} at {}".format(self.regon, self.created.strftime("%Y-%m-%d %H-%M"))
+        return "REGON {} of {}".format(self.regon, self.name)
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if self.data:
