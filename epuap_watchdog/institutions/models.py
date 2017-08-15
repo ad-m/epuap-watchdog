@@ -152,6 +152,8 @@ class REGONQuerySet(models.QuerySet):
         return self.get(regon=normalize_regon(regon))
 
 
+
+
 @reversion.register()
 @python_2_unicode_compatible
 class REGON(TimeStampedModel):

@@ -73,3 +73,4 @@ class Command(BaseCommand):
 
     def get_iter(self, queryset, no_progress):
         return tqdm(queryset, smoothing=0) if no_progress else queryset
+
