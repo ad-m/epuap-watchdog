@@ -11,7 +11,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
 from reversion.models import Version
-from teryt_tree.models import JednostkaAdministracyjna
+from teryt_tree.models import JednostkaAdministracyjna, SIMC
 
 from epuap_watchdog.institutions.utils import normalize, normalize_regon
 from epuap_watchdog.users.models import User
@@ -152,8 +152,6 @@ class REGONQuerySet(models.QuerySet):
         return self.get(regon=normalize_regon(regon))
 
 
-
-
 @reversion.register()
 @python_2_unicode_compatible
 class REGON(TimeStampedModel):
@@ -179,6 +177,11 @@ class REGON(TimeStampedModel):
         verbose_name = _("REGON")
         verbose_name_plural = _("REGONs")
         ordering = ['created']
+
+
+class REGONJST(TimeStampedModel):
+    regon = models.OneToOneField(REGON)
+    jst = models.ForeignKey(JednostkaAdministracyjna)
 
 
 @reversion.register()

@@ -41,3 +41,16 @@ def normalize_regon(regon):
     if regon and len(regon) == 14 and regon[-5:] == "0"*5:
         return regon[:14-5]
     return regon
+
+
+JST_VOIVODESHIP_KEYS = ['adsiedzwojewodztwo_symbol', 'adkorwojewodztwo_symbol']
+JST_COUNTY_KEYS = ['adsiedzpowiat_symbol', 'adkorpowiat_symbol', ]
+JST_COMMUNITY_KEYS = ["adsiedzgmina_symbol", 'adkorgmina_symbol', ]
+
+
+def get_jst_id(data):
+    for a, b, c in zip(JST_VOIVODESHIP_KEYS, JST_COUNTY_KEYS, JST_COMMUNITY_KEYS):
+        if a in data and b in data and c in data:
+            value = data[a] + data[b] + data[c]
+            if value:
+                return value

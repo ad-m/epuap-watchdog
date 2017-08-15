@@ -42,7 +42,7 @@ class Command(BaseCommand):
             for query in self.get_iter(queries, no_progress):
                 data = gus.search(**query)
                 if data:
-                    regon_id = query.get('regon', data.get('regon14'))
+                    regon_id = query.get('regon', data.get('regon14', data.get('regon9')))
                     try:
                         regon = REGON.objects.regon(regon_id)
                         if regon.data != data:
@@ -53,6 +53,7 @@ class Command(BaseCommand):
                             self.skipped += 1
                     except REGON.DoesNotExist:
                         regon = REGON(regon=regon_id, data=data)
+                        self.stdout.write("Added {}".format(regon.data.get('nazwa', '')))
                         regon.save()
                         self.inserted += 1
                 else:

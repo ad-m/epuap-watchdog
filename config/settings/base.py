@@ -65,6 +65,7 @@ LOCAL_APPS = [
     'epuap_watchdog.institutions.analysis',
     'epuap_watchdog.courts',
     'epuap_watchdog.main',
+    'epuap_watchdog.cityhalls'
     # Your stuff: custom apps go here
 ]
 
