@@ -80,7 +80,7 @@ class Command(BaseCommand):
         self.processor.ignore_links = True
 
         self.session = requests.Session()
-        for keyword in tqdm(google):
+        for keyword in tqdm(google or []):
             if not no_regon:
                 result = self.search_google("{} REGON".format(keyword), REGON_PATTERN)
                 print("For '{}' found {}".format(keyword, result))

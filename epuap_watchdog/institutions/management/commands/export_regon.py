@@ -15,7 +15,7 @@ class Command(BaseCommand):
         parser.add_argument('-o', '--outfile', type=argparse.FileType('w'), default=sys.stdout)
 
     def handle(self, query, outfile, *args, **options):
-        queries = [Q(name__icontains=x) for x in query]
+        queries = [Q(name__icontains=x) | Q(regon__icontains=x) for x in query]
         q = reduce(lambda x, y: x | y, queries)
 
         f_csv = csv.writer(outfile)
